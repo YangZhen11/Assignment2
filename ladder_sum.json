@@ -1,0 +1,18 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data":{
+        "url": "https://raw.githubusercontent.com/YangZhen11/FIT3179/main/world-happiness-report.csv"
+    },
+    "title": "Sum of World Happiness score in each year",
+    "width": 800,
+    "height": 450,
+    "mark":"line",
+    "encoding": {
+        "x": {"field":"year", "type": "ordinal", "title":"Year"},
+        "y": {"aggregate": "sum", "field": "Life Ladder","title":"Happiness score"},
+        "tooltip": [
+            {"field": "year", "type": "ordinal"},
+            {"aggregate":"sum", "field": "Life Ladder", "type": "quantitative"}
+        ]
+    }
+}

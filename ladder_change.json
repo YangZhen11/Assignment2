@@ -1,0 +1,91 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data":{
+        "url": "https://raw.githubusercontent.com/YangZhen11/FIT3179/main/world-happiness-report.csv"
+    },
+    "width": 280,
+    "height": 305,
+    "title": "Happiness score changes from 2010 to 2019",
+    "params": [
+        {
+            "name": "year_selection",
+            "bind":{
+                "input": "select",
+                "options": [
+                    null,
+                    "2019",
+                    "2010"
+                ],
+                "labels": [
+                    "Show All",
+                    "2019",
+                    "2010"
+                ],
+                "name": "Year Selection: "
+            }
+        }
+    ],
+    "transform": [
+        {
+            "filter":{
+                "field": "Country name",
+                "oneOf":["China", "India", "United States", "Australia", "Singapore", "Yemen"]
+            }
+        },
+        {
+            "filter":{
+                "field":"year",
+                "oneOf":[2010, 2019]
+            }
+        },
+        {
+            "filter": "year_selection == null || datum.year == year_selection"
+        }
+    ],
+    "encoding": {
+        "x": {
+            "field": "Life Ladder",
+            "type": "quantitative",
+            "title": "Happiness score",
+            "scale": {"type": "log", "domain": [3, 8]}
+        },
+        "y": {
+            "field":"Country name",
+            "type": "nominal",
+            "title": "Country",
+            "axis":{
+                "offset": 5,
+                "ticks": false,
+                "minExtent": 70,
+                "domain": false
+            }
+        }
+    },
+    "layer":[
+        {
+            "mark": "line",
+            "encoding": {
+                "detail": {"field":"Country name", "type": "nominal"},
+                "color": {"value": "#ffb6c1"}
+            }
+        },
+        {
+            "mark": {"type":"point","filled": true},
+            "encoding":{
+                "color":{
+                    "field":"year",
+                    "type": "ordinal",
+                    "scale": {"domain":[2010, 2019], "range": ["#CD5C5C", "#FF0000"]},
+                    "title": "Year"
+                },
+                "size": {"value": 150},
+                "opacity": {"value": 1},
+                "tooltip":[
+                    {"field": "Country name", "type": "nominal", "title": "Country Name"},
+                    {"field": "Life Ladder", "type": "quantitative", "format": ",", "title": "Happiness score"},
+                    {"field": "year", "type": "ordinal", "title": "Year"}
+                ]
+            }
+        }
+    ]
+}

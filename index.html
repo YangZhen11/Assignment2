@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+    <script src="vega_lite_vis.js"></script>
+    
+    <style>
+        body{
+            background-color:darkcyan;
+        }
+        h1{
+            text-align: center;
+            font-size: 60px;
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        p{
+            text-align: justify;
+            word-spacing: 15px;
+            letter-spacing: 1px;
+            font-size: 22px;
+        }
+        .subt{
+            text-align: center;
+            font-size: 30px;
+        }
+        .s{
+            background-color:aliceblue;
+            width: 900px;
+            margin: auto;
+            padding: 50px;
+            padding-top: 35px;
+        }
+        .bot{
+            text-align: center;
+        }
+        .right{
+            float: right;
+        }
+    </style>
+    </head>
+
+    <body>
+        <div>
+            <div class="s">
+                <h1> World Happiness report Analysis </h1>
+                <hr>
+                <div class="subt"> Introduction </div>
+                <p>
+                    The <b>World Happiness Report</b> is a survey which evaluates the state of global happiness. Nowadays, governments, organizations and society increasingly use happiness scores as an indicator in their policy-making decisions.
+                </p>
+                <hr>
+                <p></p>
+                <div class="subt"> Happiness score World Map </div>
+                <p></p>
+                <p>
+                    This is a World Map which indicates the Happiness score of many countries <b>2006 to 2020</b>. 
+                    The high and low Happiness score is represented by dark red and light red respectively. The darker the 
+                    red is, the higher score of Happiness a country has (details referring to the legend). According to the map, 
+                    <b>most of Western Europe, South America countries and Australia</b> always maintained a high-level Happiness score. 
+                    In addition, the Happiness score in <b>China</b> increases continuously from 2006 to 2020.
+                </p>
+                <div id="map"></div>
+                <p></p>
+                <hr>
+
+                <p></p>
+                <div class="subt"> Regional Average Happiness score </div>
+                <p></p>
+                <p>
+                    This is a bar chart which shows the average Happiness score of each region in 2021. 
+                    Among all regions, <b>North America and ANZ</b> have the <b>highest</b> average happiness score, which is about 7.13. 
+                    However, the region with the <b>lowest</b> average Happiness score is <b>South Asia</b>, which is around 4.44. 
+                    Among all regions, <b>Western Europe</b> has the <b>closest</b> Happiness score with <b>North America and ANZ</b>, which is about 6.91.
+                </p>
+                <div id="ave_ladder"></div>
+                <p></p>
+                <hr>
+
+                <p></p>
+                <div class="subt"> Relationship between GDP and Happiness </div>
+                <p></p>
+                <p>
+                    The following graph is a scatter plot which indicates the relationship between Logged GDP per capita 
+                    and the Happiness score of a country. According to the scatter plot, the <b>greater Logged GDP per capita</b> 
+                    a country has, the <b>greater the Happiness score</b> country has. In addition, most countries which have a high 
+                    level of Logged GDP per capita and Happiness score are in <b>Western Europe and North America and ANZ</b>. 
+                    In addition, most countries with low GDP per capita and Happiness scores are in <b>Sub-Saharan Africa</b>.
+                </p>
+                <div id="gdp_ladder"></div>
+                <p></p>
+                <hr>
+
+                <p></p>
+                <div class="subt"> Relationship between Corruption and Happiness </div>
+                <p></p>
+                <p>
+                    This scatters plot shows the relationship between the corruption rate and Happiness score. 
+                    The corruption rate and Happiness score do not have a close relationship with the low levelled 
+                    Happiness score. However, for countries with more than 6 Happiness score, the lower corruption a 
+                    country has, the higher the Happiness score it has. The <b>inversely proportional relationship</b> is obvious 
+                    when selecting <b>Western Europe</b> as the only region shown on the plot.
+                </p>
+                <div id="corrup_ladder"></div>
+                <p></p>
+                <hr>
+                
+                <p></p>
+                <div class="subt"> Happiness score Variation for some Countries </div>
+                <p></p>
+                <p>
+                    The following line chart and connected dot plot indicate the Happiness score variation for 5 selected countries, 
+                    which are <b>China, India, the United States, Australia, Singapore and Yemen</b>. Among all countries, 
+                    <b>India</b> is the only country that shows a clear <b>decreasing trend</b>. However, the Happiness score of <b>India</b> 
+                    increased significantly in 2020. In addition, <b>Australia and the United States</b> always maintained a high 
+                    level of Happiness score from <b>2006 to 2020</b>.
+                </p>
+                <p></p>
+                <div id="ladder_line"></div>
+                <div id="ladder_change" class = "right"></div>
+                <p></p>
+
+                <hr>
+                <div class="bot">
+                    <p></p>
+                    <h4>
+                        This visualisation is created by Zhen Yang.
+                    </h4>
+                    <h4>
+                        Data source is World Happiness Report from Kaggle.
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+
+            var vg_1 = "ave_ladder.json";
+            vegaEmbed("#ave_ladder", vg_1, {actions: false}).then(function(result) {
+            // Access the Vega view instance
+            }).catch(console.error);
+
+            var vg_2 = "corrup_ladder.json";
+            vegaEmbed("#corrup_ladder", vg_2, {actions: false}).then(function(result) {
+            // Access the Vega view instance
+            }).catch(console.error);
+
+            var vg_3 = "gdp_ladder.json";
+            vegaEmbed("#gdp_ladder", vg_3, {actions: false}).then(function(result) {
+            // Access the Vega view instance
+            }).catch(console.error);
+
+            var vg_4 = "ladder_change.json";
+            vegaEmbed("#ladder_change", vg_4, {actions: false}).then(function(result) {
+            // Access the Vega view instance
+            }).catch(console.error);
+
+            var vg_5 = "map.json";
+            vegaEmbed("#map", vg_5, {actions: false}).then(function(result) {
+            // Access the Vega view instance
+            }).catch(console.error);
+            
+            var vg_6 = "ladder_line.json";
+            vegaEmbed("#ladder_line", vg_6, {actions: false}).then(function(result) {
+            // Access the Vega view instance
+            }).catch(console.error);
+
+            print(brush)
+
+        </script>
+    </body>
+</html>
+    

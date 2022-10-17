@@ -1,0 +1,116 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data":{
+        "url": "https://raw.githubusercontent.com/YangZhen11/FIT3179/main/world-happiness-report.csv"
+    },
+    "width": 290,
+    "height": 300,
+    "title": "Happiness score for some countries from 2006 to 2020",
+    "params": [
+        {
+            "name": "Country_selection",
+            "bind":{
+                "input": "select",
+                "options": [
+                  null,
+                  "China", 
+                  "India", 
+                  "United States", 
+                  "Australia", 
+                  "Singapore", 
+                  "Yemen"
+                ],
+                "labels": [
+                  "Show All",
+                  "China", 
+                  "India", 
+                  "United States", 
+                  "Australia", 
+                  "Singapore", 
+                  "Yemen"
+                ],
+                "name": "Country Selection: "
+            }
+        }
+    ],
+    "transform": [
+        {
+            "filter":{
+                "field": "Country name",
+                "oneOf":["China", "India", "United States", "Australia", "Singapore", "Yemen"]
+            }
+        },
+        {
+            "filter": "Country_selection == null || datum['Country name'] == Country_selection"
+        }
+    ],
+    "encoding": {
+        "x": {
+            "field": "year",
+            "type": "temporal",
+            "title": "Year"
+            
+        },
+        "y": {
+            "field": "Life Ladder",
+            "type": "quantitative",
+            "title": "Happiness score",
+            "scale": {"type": "log", "domain": [2.5, 8]}
+        }
+    },
+    "layer":[
+        {
+            "mark": "line",
+            "encoding": {
+                "detail": {"field":"Country name", "type": "nominal"},
+                "color": {
+                        "field": "Country name",
+                        "type": "nominal",
+                    "scale": {
+                        "domain": [
+                            "China", "India", "United States", "Australia", "Singapore", "Yemen"
+                        ],
+                        "range": [
+                            "#e41a1c",
+                            "#984ea3",
+                            "#ff7f00",
+                            "#a6cee3",
+                            "#377eb8",
+                            "#a65628"
+                        ]
+                    } 
+                },
+                "opacity": {"value": 0.9}
+            }
+        },
+        {
+            "mark": {"type":"point","filled": true},
+            "encoding":{
+                "size": {"value": 50},
+                "color": {
+                    "field": "Country name",
+                    "type": "nominal",
+                    "scale": {
+                        "domain": [
+                            "China", "India", "United States", "Australia", "Singapore", "Yemen"
+                        ],
+                        "range": [
+                            "#e41a1c",
+                            "#984ea3",
+                            "#ff7f00",
+                            "#a6cee3",
+                            "#377eb8",
+                            "#a65628"
+                        ]
+                    } 
+                },
+                "opacity": {"value": 0.9},
+                "tooltip":[
+                    {"field": "Country name", "type": "nominal", "title": "Country Name"},
+                    {"field": "Life Ladder", "type": "quantitative", "format": ",", "title": "Happiness score"},
+                    {"field": "year", "type": "temporal", "title": "Year"}
+                ]
+            }
+        }
+    ]
+}

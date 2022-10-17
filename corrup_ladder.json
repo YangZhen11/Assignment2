@@ -1,0 +1,167 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 520,
+    "height": 350,
+    "title": "Happiness score vs. Perceptions of corruption per Country 2021",
+    "data" : {
+        "url": "https://raw.githubusercontent.com/YangZhen11/A2/main/world-happiness-report.csv"
+    },
+    "params": [
+        {
+            "name": "Ladder_score_above",
+            "value": 0,
+            "bind":{
+                "input": "range",
+                "min": 0,
+                "max": 7,
+                "step": 1,
+                "name": "Minimum Ladder score"
+            }
+        },
+        {
+            "name": "Region_selection",
+            "bind":{
+                "input": "select",
+                "options": [
+                null,
+                "Western Europe",
+                "North America and ANZ",
+                "Middle East and North Africa",
+                "Latin America and Caribbean",
+                "Central and Eastern Europe",
+                "East Asia",
+                "Southeast Asia",
+                "Sub-Saharan Africa",
+                "Commonwealth of Independent States",
+                "South Asia"
+                ],
+                "labels": [
+                "Show All",
+                "Western Europe",
+                "North America and ANZ",
+                "Middle East and North Africa",
+                "Latin America and Caribbean",
+                "Central and Eastern Europe",
+                "East Asia",
+                "Southeast Asia",
+                "Sub-Saharan Africa",
+                "Commonwealth of Independent States",
+                "South Asia"
+                ],
+                "name": "Region Selection: "
+            }
+        }
+    ],
+    "transform": [
+        {"filter": "datum.Ladder_score > 0"},
+        {"filter": "datum.Logged_GDP_per_capita > 0"},
+        {"filter": "datum.Ladder_score > Ladder_score_above"},
+        {
+            "filter": "Region_selection == null || datum.Region == Region_selection"
+        }
+    ],
+    "encoding": {
+        "x":{
+            "field":"Ladder_score",
+            "type": "quantitative",
+            "title":"Happiness score of a country",
+            "axis": {"tickCount": 5},
+            "scale": {"type": "log", "domain": [3, 8]}
+        },
+        "y":{
+            "field":"Perceptions_of_corruption",
+            "title":"Perceptions of corruption",
+            "type": "quantitative"
+        }
+    },
+    "layer":[
+        {
+            "selection":{
+                "Region_highlight": {
+                    "type": "multi",
+                    "fields": ["Region"],
+                    "bind": "legend"
+                }
+            },
+            "mark":"circle",
+            "encoding": {
+                "size":{
+                    "field": "Ladder_score",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "threshold",
+                        "domain": [3, 5, 7],
+                        "range": [10, 50, 150, 300]
+                    },
+                    "legend": {"format": ".1s"}
+                },
+                "color":{
+                    "field": "Region",
+                    "type": "nominal",
+                    "scale": {
+                        "domain": [
+                            "Western Europe",
+                            "North America and ANZ",
+                            "Middle East and North Africa",
+                            "Latin America and Caribbean",
+                            "Central and Eastern Europe",
+                            "East Asia",
+                            "Southeast Asia",
+                            "Sub-Saharan Africa",
+                            "Commonwealth of Independent States",
+                            "South Asia"
+                        ],
+                        "range": [
+                            "#FF5151",
+                            "#BE77FF",
+                            "#ff7f00",
+                            "#a6cee3",
+                            "#377eb8",
+                            "#a65628",
+                            "#6fb7b7",
+                            "#002050",
+                            "#FF79BC",
+                            "#ecc846"
+                        ]
+                    } 
+                },
+                "opacity":{
+                    "condition": {"selection": "Region_highlight", "value": 0.6},
+                    "value": 0.2
+                },
+                "tooltip":[
+                    {"field": "Country", "type": "nominal"},
+                    {"field": "Ladder_score", "type": "quantitative", "format": ",", "title": "Happiness score"},
+                    {"field": "Perceptions_of_corruption", "type": "quantitative", "format": ",", "title": "Perceptions of corruption"}
+                ]
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "align": "right",
+                "baseline": "middle",
+                "dx": -12,
+                "fontSize": 11.5,
+                "fontStyle": "italic"
+            },
+            "encoding": {
+                "text": {"field": "Country", "type": "nominal"},
+                "color": {"value": "black"},
+                "opacity": {
+                    "condition": {
+                    "test": "datum['Country'] == 'China' || datum['Country'] == 'Singapore' || datum['Country'] == 'Australia' || datum['Country'] == 'Italy' || datum['Country'] == 'Yemen' ||  datum['Country'] == 'United States'",
+                    "value": 1
+                    },
+                    "value": 0
+                },
+                "tooltip": [
+                    {"field": "Country", "type": "nominal", "title": "Country Name"},
+                    {"field": "Ladder_score", "type": "quantitative", "format": ",", "title": "Happiness score"},
+                    {"field": "Perceptions_of_corruption", "type": "quantitative", "format": ",", "title": "Perceptions of corruption"}
+                ]
+            }
+        }
+    ]
+    
+}
